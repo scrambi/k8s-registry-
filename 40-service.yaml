@@ -8,7 +8,7 @@ spec:
     app: registry
   ports:
     - name: http
-      port: 5000         # порт внутри кластера
-      targetPort: 5000   # куда слушает контейнер registry:2
-      protocol: TCP
-  type: ClusterIP        # только внутри кластера (для начала достаточно)
+      port: 5000
+      targetPort: 5000
+      nodePort: 30500   # порт на ноде
+  type: NodePort   # только внутри кластера (для начала достаточно)
