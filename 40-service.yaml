@@ -1,1 +1,14 @@
-
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  selector:
+    app: registry
+  ports:
+    - name: http
+      port: 5000         # порт внутри кластера
+      targetPort: 5000   # куда слушает контейнер registry:2
+      protocol: TCP
+  type: ClusterIP        # только внутри кластера (для начала достаточно)
