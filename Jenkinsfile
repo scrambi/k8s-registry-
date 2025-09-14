@@ -40,6 +40,7 @@ pipeline {
             kubectl apply -n ${NS} -f 10-pv-pvc-nfs.yaml
             kubectl apply -n ${NS} -f 20-deploy-svc.yaml
             kubectl apply -n ${NS} -f 40-service.yaml
+            kubectl apply -n ${NS} -f registry-config.yaml
 
             # ждём раскатку
             kubectl -n ${NS} rollout status deploy/registry --timeout=180s || true
