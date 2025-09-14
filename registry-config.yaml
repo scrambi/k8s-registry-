@@ -7,21 +7,23 @@ data:
   config.yml: |
     version: 0.1
     log:
-      fields:
-        service: registry
+      level: info
+    http:
+      addr: :5000
+      secret: ${REGISTRY_HTTP_SECRET}
+      headers:
+        X-Content-Type-Options: [nosniff]
     storage:
       filesystem:
         rootdirectory: /var/lib/registry
       delete:
         enabled: true
-    http:
-      addr: :5000
-      # зафиксируй длинную случайную строку (64+ символов)
-      secret: "CHANGE_ME_TO_LONG_RANDOM_STRING_64CHARS"
     auth:
-      token:
-        realm: http://192.168.31.125/jwt/auth
-        service: container_registry
-        issuer: gitlab-issuer
-        # если позже включишь HTTPS с кастомным CA у GitLab:
-        # rootcertbundle: /etc/ssl/certs/ca-certificates.crt
+      htpasswd:
+        realm: basic-realm
+        path: /auth/htpasswd
+    health:
+      storagedriver:
+        enabled: true
+        interval: 10s
+        threshold: 3
