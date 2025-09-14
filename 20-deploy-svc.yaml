@@ -28,10 +28,16 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: /var/lib/registry
+            - name: cfg  #new
+              mountPath: /etc/docker/registry         
+              readOnly: true
       volumes:
         - name: storage
           persistentVolumeClaim:
             claimName: registry-pvc
+        - name: cfg                                   # new
+          configMap:
+            name: registry-config
 ---
 apiVersion: v1
 kind: Service
