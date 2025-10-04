@@ -10,5 +10,5 @@ spec:
     - name: http
       port: 5000
       targetPort: 5000
-      nodePort: 30500   # порт на ноде
-  type: NodePort   # только внутри кластера (для начала достаточно)
+      nodePort: 30500   
+  type: NodePort   
