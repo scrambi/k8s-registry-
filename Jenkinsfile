@@ -8,7 +8,7 @@ pipeline {
   }
 
   environment {
-    NS = 'registry' // namespace, где живёт реестр
+    NS = 'registry' 
   }
 
   stages {
