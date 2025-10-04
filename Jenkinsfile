@@ -33,19 +33,19 @@ pipeline {
           sh """
             set -e
 
-            # namespace (идемпотентно)
+            
             kubectl apply -f 00-namespace.yaml
 
-            # манифесты в нужном NS
+           
             kubectl apply -n ${NS} -f 10-pv-pvc-nfs.yaml
             kubectl apply -n ${NS} -f 20-deploy-svc.yaml
             kubectl apply -n ${NS} -f 40-service.yaml
             kubectl apply -n ${NS} -f registry-config.yaml
 
-            # ждём раскатку
+            
             kubectl -n ${NS} rollout status deploy/registry --timeout=180s || true
 
-            # сохраним NodePort в файл для post-секции
+           
             kubectl -n ${NS} get svc registry \
               -o jsonpath='{.spec.ports[0].nodePort}' > nodeport.txt
           """
@@ -60,7 +60,7 @@ pipeline {
         sh '''
           set -e
           NODEPORT=$(cat nodeport.txt 2>/dev/null || true)
-          # возьмём IP первой ноды (при желании можно захардкодить свой)
+          
           NODEIP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[?(@.type=='InternalIP')].address}" 2>/dev/null || echo "<node_ip>")
           TEXT="✅ Deploy OK: ${JOB_NAME} #${BUILD_NUMBER}\\nRegistry: http://${NODEIP}:${NODEPORT}/v2/_catalog"
 
